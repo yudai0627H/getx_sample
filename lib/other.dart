@@ -15,7 +15,7 @@ class Other extends StatelessWidget {
       body: Center(
         child: Column(
           children: [
-            Text("${c.count}"),
+            Obx(() => Text(c.count.string)),
             ElevatedButton(
                 onPressed: () => Get.snackbar("GetX Snakcbar", "ははははははははあはは",
                     snackPosition: SnackPosition.BOTTOM),
@@ -26,11 +26,17 @@ class Other extends StatelessWidget {
                   middleText: "Simple GetX Alert",
                   textConfirm: 'Okay',
                   confirmTextColor: Colors.pink,
-                  textCancel: "Cancel"),
+                  textCancel: "Cancel",
+                  onConfirm: () => Get.back()),
               child: const Text("ダイアログ"),
             ),
             ElevatedButton(
-                onPressed: () => Get.to(() => const OtherSecondPage()),
+                onPressed: () async {
+                  var data = await Get.to(const OtherSecondPage());
+                  if (data != null) {
+                    c.change(data);
+                  }
+                },
                 child: const Text("次の画面"))
           ],
         ),

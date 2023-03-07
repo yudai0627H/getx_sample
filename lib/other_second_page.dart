@@ -10,7 +10,8 @@ class OtherSecondPage extends StatelessWidget {
       appBar: AppBar(),
       body: Column(
         children: [
-          ElevatedButton(onPressed: () => Get.back(), child: const Text("もどる"))
+          ElevatedButton(
+              onPressed: () => Get.back(result: 9), child: const Text("もどる"))
         ],
       ),
     );
