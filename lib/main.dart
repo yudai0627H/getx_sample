@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import 'controller.dart';
+import 'controller/count_controller.dart';
+import 'other.dart';
 
 void main() {
   runApp(const MyApp());
@@ -40,24 +41,7 @@ class Home extends StatelessWidget {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            c.increment();
-          },
-          child: const Icon(Icons.add)),
-    );
-  }
-}
-
-class Other extends StatelessWidget {
-  Other({Key? key}) : super(key: key);
-  final Controller c = Get.find();
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Text("${c.count}"),
-      ),
+          onPressed: c.increment, child: const Icon(Icons.add)),
     );
   }
 }
