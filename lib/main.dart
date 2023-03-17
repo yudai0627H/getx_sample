@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:getx_sample/pages/add_todo_page.dart';
+import 'package:getx_sample/pages/home_page.dart';
 
 import 'controller/count_controller.dart';
+import 'counter_page.dart';
+import 'data/app_theme.dart';
 import 'other.dart';
 
 void main() {
@@ -14,11 +18,24 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const Home(),
+      debugShowCheckedModeBanner: false,
+      theme: AppTheme.light,
+      darkTheme: AppTheme.dark,
+      // TODO
+      themeMode: ThemeMode.system,
+      // TODO
+      locale: null,
+      defaultTransition: Transition.noTransition,
+      initialRoute: '/home',
+      getPages: [
+        GetPage(name: "/home", page: () => HomePage()),
+        GetPage(
+            name: "/todo",
+            // パラメータが渡されていなければtodoIdはnullなので新規作成画面に
+            page: () => AddTodoPage(
+                  todoId: Get.parameters["id"],
+                )),
+      ],
     );
   }
 }
@@ -35,9 +52,16 @@ class Home extends StatelessWidget {
         title: Obx(() => Text("Clicks: ${c.count}")),
       ),
       body: Center(
-        child: ElevatedButton(
-          child: const Text("Go to Other"),
-          onPressed: () => Get.to(Other()),
+        child: Column(
+          children: [
+            ElevatedButton(
+              child: const Text("Go to Other"),
+              onPressed: () => Get.to(Other()),
+            ),
+            ElevatedButton(
+                onPressed: () => Get.to(CounterPage()),
+                child: const Text("カウンターのやつ"))
+          ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
