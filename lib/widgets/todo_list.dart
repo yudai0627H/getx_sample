@@ -22,7 +22,7 @@ class TodoList extends StatelessWidget {
                 itemCount: todos.length,
                 itemBuilder: (context, index) {
                   final todo = todos[index];
-                  return TodoTile(todo: todo);
+                  return TodoTile(key: Key(todo.id), todo: todo);
                 });
           }),
           Row(

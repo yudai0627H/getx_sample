@@ -1,9 +1,26 @@
 import 'package:get/get.dart';
+import 'package:getx_sample/controllers/filter_controller.dart';
 
 import '../models/todo.dart';
 
 class TodoController extends GetxController {
   final _todos = <Todo>[].obs;
+
+  List<Todo> get todos {
+    final hideDone = Get.find<FilterController>().hideDone;
+    return hideDone
+        ? _todos.where((todo) => todo.done == false).toList()
+        : _todos;
+  }
+
+  int get countUndone {
+    return _todos.fold<int>(0, (acc, todo) {
+      if (!todo.done) {
+        acc++;
+      }
+      return acc;
+    });
+  }
 
   Todo? getTodoById(String id) {
     try {
@@ -18,8 +35,6 @@ class TodoController extends GetxController {
     super.onInit();
     _todos.addAll(Todo.initialTodos);
   }
-
-  List<Todo> get todos => _todos;
 
   void addTodo(String description) {
     final todo = Todo(description: description);

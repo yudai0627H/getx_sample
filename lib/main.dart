@@ -1,19 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:getx_sample/controllers/locale_controller.dart';
+import 'package:getx_sample/controllers/theme_controller.dart';
+import 'package:getx_sample/data/app_translations.dart';
 import 'package:getx_sample/pages/add_todo_page.dart';
 import 'package:getx_sample/pages/home_page.dart';
+import 'package:getx_sample/services/storage_service.dart';
 
 import 'controller/count_controller.dart';
 import 'counter_page.dart';
 import 'data/app_theme.dart';
 import 'other.dart';
 
-void main() {
-  runApp(const MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await StorageService.init();
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  MyApp({super.key});
+
+  final themeController = Get.put(ThemeController());
+  final localeController = Get.put(LocaleController());
 
   @override
   Widget build(BuildContext context) {
@@ -21,10 +30,10 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: AppTheme.light,
       darkTheme: AppTheme.dark,
-      // TODO
-      themeMode: ThemeMode.system,
-      // TODO
-      locale: null,
+      themeMode: themeController.getThemeMode(),
+      translations: AppTranslations(),
+      locale: localeController.getLocale(),
+      fallbackLocale: AppTranslations.jaJP,
       defaultTransition: Transition.noTransition,
       initialRoute: '/home',
       getPages: [
